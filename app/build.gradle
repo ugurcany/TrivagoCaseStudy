@@ -8,7 +8,7 @@ android {
     defaultConfig {
         applicationId "com.ugurcanyildirim.trivagocasestudy"
         minSdkVersion 15
-        targetSdkVersion 24
+        targetSdkVersion 21
         versionCode 1
         versionName "1.0"
     }
@@ -28,4 +28,5 @@ dependencies {
     apt 'com.jakewharton:butterknife-compiler:8.2.1'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.github.medyo:fancybuttons:1.8.1'
+    compile 'com.github.arimorty:floatingsearchview:2.0.2'
 }

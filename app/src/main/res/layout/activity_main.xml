@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
@@ -12,8 +13,24 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin">
 
+
+        <com.arlib.floatingsearchview.FloatingSearchView
+            android:id="@+id/searchView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:floatingSearch_backgroundColor="@color/white"
+            app:floatingSearch_viewTextColor="@color/black"
+            app:floatingSearch_searchHint="Search for a movie"
+            app:floatingSearch_dimBackground="false"
+            app:floatingSearch_showSearchKey="true"
+            app:floatingSearch_leftActionMode="noLeftAction"
+            app:floatingSearch_close_search_on_keyboard_dismiss="true"/>
 
 
     </FrameLayout>
