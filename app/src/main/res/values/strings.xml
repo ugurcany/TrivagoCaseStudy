@@ -3,4 +3,7 @@
     <string name="app_name">Trakt.tv</string>
     <string name="app_description">Trivago Case Study</string>
 
+    <string name="results_popularmovies">Popular Movies</string>
+    <string name="results_searchmovies">Search Results</string>
+
 </resources>

@@ -7,6 +7,8 @@
     <dimen name="toolbar_subtitlesize">12sp</dimen>
     <dimen name="toolbar_buttoniconsize">25sp</dimen>
 
-    <dimen name="item_movie_titlesize">20sp</dimen>
+    <dimen name="results_titlesize">16sp</dimen>
+
+    <dimen name="item_movie_titlesize">18sp</dimen>
 
 </resources>

@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ugurcanyildirim.trivagocasestudy.R;
+import com.ugurcanyildirim.trivagocasestudy.model.Movie;
 import com.ugurcanyildirim.trivagocasestudy.ui.activity.MainActivity;
 import com.ugurcanyildirim.trivagocasestudy.ui.custom.InfiniteListAdapter;
 
@@ -39,7 +40,7 @@ public class MovieListAdapter<T> extends InfiniteListAdapter<T> {
             convertView = activity.getLayoutInflater().inflate(itemLayoutRes, parent, false);
 
             holder = new ViewHolder();
-            holder.title = (TextView) convertView.findViewById(R.id.movieTitle);
+            holder.movieTitle = (TextView) convertView.findViewById(R.id.movieTitle);
 
             convertView.setTag(holder);
 
@@ -47,9 +48,9 @@ public class MovieListAdapter<T> extends InfiniteListAdapter<T> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        String text = (String) itemList.get(position);
-        if (text != null) {
-            holder.title.setText(text);
+        Movie movie = (Movie) itemList.get(position);
+        if (movie != null) {
+            holder.movieTitle.setText(movie.title + " (" + movie.year + ")");
         }
 
         return convertView;
@@ -77,7 +78,7 @@ public class MovieListAdapter<T> extends InfiniteListAdapter<T> {
 
 
     static class ViewHolder {
-        TextView title;
+        TextView movieTitle;
     }
 
 }

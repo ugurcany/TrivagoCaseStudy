@@ -1,17 +1,24 @@
 package com.ugurcanyildirim.trivagocasestudy.ui.activity;
 
+import android.app.Application;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
+import com.ugurcanyildirim.trivagocasestudy.BaseApplication;
 import com.ugurcanyildirim.trivagocasestudy.R;
+import com.ugurcanyildirim.trivagocasestudy.model.Movie;
 import com.ugurcanyildirim.trivagocasestudy.ui.adapter.MovieListAdapter;
 import com.ugurcanyildirim.trivagocasestudy.ui.custom.InfiniteListView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,15 +28,14 @@ import butterknife.ButterKnife;
  */
 public class MainActivity extends AppCompatActivity {
 
-    private final int ITEM_COUNT_TO_LOAD = 25;
-    private final int ITEM_COUNT_LIMIT = 200;
-    private final int TIME_TO_LOAD = 1500; //in ms
+    private final int ITEM_COUNT = 20;
+    private int page = 1;
 
-    private ArrayList<String> movieList;
+    private ArrayList<Movie> movieList;
     private MovieListAdapter adapter;
-    private View loadingView;
 
-    private int itemOffset = 0;
+    private boolean isSearchActive = false;
+    private String keyword = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,16 +47,30 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSearchTextChanged(String oldQuery, final String newQuery) {
 
+                if(newQuery.isEmpty()){
+                    isSearchActive = false;
+                    keyword = "";
+
+                    resultsTitle.setText(getResources().getString(R.string.results_popularmovies));
+                }
+                else{
+                    isSearchActive = true;
+                    keyword = newQuery;
+
+                    resultsTitle.setText(getResources().getString(R.string.results_searchmovies));
+                }
+
                 Log.d(MainActivity.class.getSimpleName(), "Search: " + newQuery);
+
+                refreshList();
 
             }
         });
 
-        movieList = new ArrayList<String>();
-        adapter = new MovieListAdapter(this, R.layout.item_movie, movieList);
-        loadingView = getLayoutInflater().inflate(R.layout.item_loading, null);
+        movieList = new ArrayList<Movie>();
+        adapter = new MovieListAdapter<Movie>(this, R.layout.item_movie, movieList);
 
-        movieListView.init(adapter, loadingView);
+        movieListView.init(adapter, R.layout.item_loading);
 
         refreshList();
 
@@ -58,47 +78,18 @@ public class MainActivity extends AppCompatActivity {
 
     //LOAD NEW ITEMS
     public void loadNewItems() {
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected void onPreExecute() {
-                movieListView.startLoading();
-            }
-
-            @Override
-            protected Void doInBackground(Void... params) {
-                try {
-                    Thread.sleep(TIME_TO_LOAD);
-                } catch (InterruptedException ex) {
-                    ex.printStackTrace();
-                }
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void param) {
-                if(itemOffset >= ITEM_COUNT_LIMIT) {
-                    movieListView.hasMore(false);
-                }
-                else {
-                    //ADD NEW ITEMS TO LIST
-                    for (int i = itemOffset; i < itemOffset + ITEM_COUNT_TO_LOAD; i++) {
-                        String item = "Item #" + i;
-                        movieListView.addNewItem(item);
-                    }
-                    itemOffset += ITEM_COUNT_TO_LOAD;
-                    Log.d("InfiniteListView", "Current item count = " + itemOffset);
-
-                    movieListView.hasMore(true);
-                }
-
-                movieListView.stopLoading();
-            }
-        }.execute();
+        movieListView.startLoading();
+        if(isSearchActive){
+            BaseApplication.getService().searchMovies(this, page, ITEM_COUNT, keyword);
+        }
+        else{
+            BaseApplication.getService().getPopularMovies(this, page, ITEM_COUNT);
+        }
     }
 
     //DO THIS ON SWIPE-REFRESH
     public void refreshList() {
-        itemOffset = 0;
+        page = 1;
         movieListView.clearList();
         loadNewItems();
     }
@@ -113,9 +104,32 @@ public class MainActivity extends AppCompatActivity {
         //LogUtil.d("item long clicked: " + position);
     }
 
+    //CALLED FROM SERVICE
+    public void loadMovies(List<Movie> movies, String keyword){
+        if(this.keyword.equals(keyword)) { //OLD RESULTS
+            if (movies != null) {
+                if (movies.size() < ITEM_COUNT) {
+                    movieListView.hasMore(false);
+                } else {
+                    //ADD NEW ITEMS TO LIST
+                    for (Movie movie : movies) {
+                        movieListView.addNewItem(movie);
+                    }
+                    page++;
+
+                    movieListView.hasMore(true);
+                }
+            }
+            movieListView.stopLoading();
+        }
+    }
+
 
     @BindView(R.id.searchView)
     FloatingSearchView searchView;
+
+    @BindView(R.id.resultsTitle)
+    TextView resultsTitle;
 
     @BindView(R.id.movieListView)
     InfiniteListView movieListView;

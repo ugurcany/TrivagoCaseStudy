@@ -23,6 +23,7 @@
             android:maxLines="2"
             android:ellipsize="end"
             android:textSize="@dimen/item_movie_titlesize"
+            android:textStyle="bold"
             android:textColor="@color/black" />
 
     </LinearLayout>

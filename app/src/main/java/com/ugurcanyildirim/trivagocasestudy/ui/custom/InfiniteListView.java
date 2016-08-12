@@ -7,6 +7,8 @@ package com.ugurcanyildirim.trivagocasestudy.ui.custom;
 import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -22,11 +24,14 @@ import java.util.List;
  */
 public class InfiniteListView<T> extends FrameLayout {
 
+    private Context context;
+
     private SwipeRefreshLayout swipeRefreshLayout;
     private ListView listView;
 
     private boolean loading = false;
     private View loadingView;
+    private int loadingViewLayout;
 
     private boolean hasMore = false;
 
@@ -49,6 +54,8 @@ public class InfiniteListView<T> extends FrameLayout {
 
     private void init(Context context, AttributeSet attrs){
         View view = inflate(context, R.layout.custom_ilw, this);
+
+        this.context = context;
 
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeColors(context.getResources().getColor(R.color.primary));
@@ -86,12 +93,12 @@ public class InfiniteListView<T> extends FrameLayout {
 
     }
 
-    public void init(InfiniteListAdapter<T> infiniteListAdapter, final View loadingView){
+    public void init(InfiniteListAdapter<T> infiniteListAdapter, int loadingViewLayout){
 
         this.infiniteListAdapter = infiniteListAdapter;
         listView.setAdapter(infiniteListAdapter);
 
-        this.loadingView = loadingView;
+        this.loadingViewLayout = loadingViewLayout;
 
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -147,14 +154,20 @@ public class InfiniteListView<T> extends FrameLayout {
     }
 
     public void startLoading(){
+        if(listView.getFooterViewsCount() > 0) {
+            listView.removeFooterView(loadingView);
+        }
+
         loading = true;
-        if(!swipeRefreshLayout.isRefreshing()) {
+        this.loadingView = LayoutInflater.from(context).inflate(loadingViewLayout, null, false);
+
+        if(!swipeRefreshLayout.isRefreshing() && listView.getFooterViewsCount() == 0) {
             listView.addFooterView(loadingView, null, false);
         }
     }
 
     public void stopLoading(){
-        if(!swipeRefreshLayout.isRefreshing()) {
+        if(/*!swipeRefreshLayout.isRefreshing() &&*/ listView.getFooterViewsCount() > 0) {
             listView.removeFooterView(loadingView);
         }
         swipeRefreshLayout.setRefreshing(false);
