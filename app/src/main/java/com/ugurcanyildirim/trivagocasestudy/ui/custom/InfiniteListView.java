@@ -7,7 +7,6 @@ package com.ugurcanyildirim.trivagocasestudy.ui.custom;
 import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
@@ -53,7 +52,7 @@ public class InfiniteListView<T> extends FrameLayout {
     }
 
     private void init(Context context, AttributeSet attrs){
-        View view = inflate(context, R.layout.custom_ilw, this);
+        View view = inflate(context, R.layout.custom_infinitelistview, this);
 
         this.context = context;
 

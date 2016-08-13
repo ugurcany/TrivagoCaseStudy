@@ -1,10 +1,14 @@
 package com.ugurcanyildirim.trivagocasestudy.ui.adapter;
 
 import android.app.Activity;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 import com.ugurcanyildirim.trivagocasestudy.R;
 import com.ugurcanyildirim.trivagocasestudy.model.Movie;
 import com.ugurcanyildirim.trivagocasestudy.ui.activity.MainActivity;
@@ -40,7 +44,9 @@ public class MovieListAdapter<T> extends InfiniteListAdapter<T> {
             convertView = activity.getLayoutInflater().inflate(itemLayoutRes, parent, false);
 
             holder = new ViewHolder();
+            holder.moviePoster = (ImageView) convertView.findViewById(R.id.moviePoster);
             holder.movieTitle = (TextView) convertView.findViewById(R.id.movieTitle);
+            holder.movieOverview = (TextView) convertView.findViewById(R.id.movieOverview);
 
             convertView.setTag(holder);
 
@@ -50,7 +56,20 @@ public class MovieListAdapter<T> extends InfiniteListAdapter<T> {
 
         Movie movie = (Movie) itemList.get(position);
         if (movie != null) {
-            holder.movieTitle.setText(movie.title + " (" + movie.year + ")");
+            //POSTER
+            Picasso.with(activity)
+                    .load(movie.images.poster.thumb)
+                    .placeholder(R.drawable.default_poster)
+                    .error(R.drawable.default_poster)
+                    .into(holder.moviePoster);
+
+            //TITLE
+            String title = movie.title + " (" + (!TextUtils.isEmpty(movie.year) ? movie.year : "-") + ")";
+            holder.movieTitle.setText(title);
+
+            //OVERVIEW
+            String overview = !TextUtils.isEmpty(movie.overview) ? movie.overview.trim() : "No overview found";
+            holder.movieOverview.setText(overview);
         }
 
         return convertView;
@@ -78,7 +97,9 @@ public class MovieListAdapter<T> extends InfiniteListAdapter<T> {
 
 
     static class ViewHolder {
+        ImageView moviePoster;
         TextView movieTitle;
+        TextView movieOverview;
     }
 
 }

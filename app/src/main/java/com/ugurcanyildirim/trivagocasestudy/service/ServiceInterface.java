@@ -19,6 +19,7 @@ public interface ServiceInterface {
     Call<List<Movie>> getPopularMovies(
             @Header("trakt-api-version") String apiVersion,
             @Header("trakt-api-key") String apiKey,
+            @Query("extended") String extended,
             @Query("page") int page,
             @Query("limit") int limit);
 
@@ -26,6 +27,7 @@ public interface ServiceInterface {
     Call<List<SearchResult>> searchMovies(
             @Header("trakt-api-version") String apiVersion,
             @Header("trakt-api-key") String apiKey,
+            @Query("extended") String extended,
             @Query("page") int page,
             @Query("limit") int limit,
             @Query("query") String keyword);

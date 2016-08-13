@@ -25,6 +25,7 @@ public class ServiceManager {
     private final String BASE_URL = "https://api.trakt.tv";
     private final String API_VERSION = "2";
     private final String API_KEY = "ad005b8c117cdeee58a1bdb7089ea31386cd489b21e14b19818c91511f12a086";
+    private final String EXTENDED_INFO = "full,images";
 
     private Retrofit retrofit;
     private ServiceInterface serviceInterface;
@@ -42,7 +43,7 @@ public class ServiceManager {
 
     public void getPopularMovies(final MainActivity mainActivity, int page, int limit){
 
-        Call<List<Movie>> call = serviceInterface.getPopularMovies(API_VERSION, API_KEY, page, limit);
+        Call<List<Movie>> call = serviceInterface.getPopularMovies(API_VERSION, API_KEY, EXTENDED_INFO, page, limit);
         call.enqueue(new Callback<List<Movie>>() {
             @Override
             public void onResponse(Call<List<Movie>> call, Response<List<Movie>> response) {
@@ -68,7 +69,7 @@ public class ServiceManager {
 
     public void searchMovies(final MainActivity mainActivity, int page, int limit, final String keyword){
 
-        Call<List<SearchResult>> call = serviceInterface.searchMovies(API_VERSION, API_KEY, page, limit, keyword);
+        Call<List<SearchResult>> call = serviceInterface.searchMovies(API_VERSION, API_KEY, EXTENDED_INFO, page, limit, keyword);
         call.enqueue(new Callback<List<SearchResult>>() {
             @Override
             public void onResponse(Call<List<SearchResult>> call, Response<List<SearchResult>> response) {

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
+import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.ugurcanyildirim.trivagocasestudy.BaseApplication;
 import com.ugurcanyildirim.trivagocasestudy.R;
 import com.ugurcanyildirim.trivagocasestudy.model.Movie;
@@ -28,7 +29,7 @@ import butterknife.ButterKnife;
  */
 public class MainActivity extends AppCompatActivity {
 
-    private final int ITEM_COUNT = 20;
+    private final int ITEM_COUNT = 10;
     private int page = 1;
 
     private ArrayList<Movie> movieList;
@@ -64,6 +65,23 @@ public class MainActivity extends AppCompatActivity {
 
                 refreshList();
 
+            }
+        });
+        searchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
+            @Override
+            public void onSuggestionClicked(SearchSuggestion searchSuggestion) {
+            }
+
+            @Override
+            public void onSearchAction(String currentQuery) {
+                if(!currentQuery.equals(keyword) && !currentQuery.isEmpty()){
+                    isSearchActive = true;
+                    keyword = currentQuery;
+
+                    resultsTitle.setText(getResources().getString(R.string.results_searchmovies));
+
+                    refreshList();
+                }
             }
         });
 
@@ -106,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
 
     //CALLED FROM SERVICE
     public void loadMovies(List<Movie> movies, String keyword){
-        if(this.keyword.equals(keyword)) { //OLD RESULTS
+        if(this.keyword.equals(keyword)) { //IF NOT OLD RESULTS
             if (movies != null) {
                 if (movies.size() < ITEM_COUNT) {
                     movieListView.hasMore(false);
@@ -119,6 +137,10 @@ public class MainActivity extends AppCompatActivity {
 
                     movieListView.hasMore(true);
                 }
+            }
+
+            if(movieList.isEmpty()){
+                resultsTitle.setText(getResources().getString(R.string.results_nomovie));
             }
             movieListView.stopLoading();
         }

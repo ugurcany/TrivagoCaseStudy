@@ -10,5 +10,6 @@
     <dimen name="results_titlesize">16sp</dimen>
 
     <dimen name="item_movie_titlesize">18sp</dimen>
+    <dimen name="item_movie_overviewsize">12sp</dimen>
 
 </resources>

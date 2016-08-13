@@ -13,4 +13,24 @@ public class Movie {
     @SerializedName("year")
     public String year;
 
+    @SerializedName("overview")
+    public String overview;
+
+    @SerializedName("images")
+    public Images images;
+
+    public class Images {
+
+        @SerializedName("poster")
+        public Poster poster;
+
+    }
+
+    public class Poster {
+
+        @SerializedName("thumb")
+        public String thumb;
+
+    }
+
 }
