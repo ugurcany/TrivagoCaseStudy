@@ -2,14 +2,19 @@ package com.ugurcanyildirim.trivagocasestudy.ui.activity;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
+import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
+import com.github.javiersantos.materialstyleddialogs.enums.Style;
 import com.ugurcanyildirim.trivagocasestudy.BaseApplication;
 import com.ugurcanyildirim.trivagocasestudy.R;
 import com.ugurcanyildirim.trivagocasestudy.model.Movie;
@@ -23,6 +28,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by ugurc on 11.08.2016.
@@ -146,6 +152,24 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    @OnClick(R.id.buttonInfo)
+    void onButtonInfoClick(){
+        MaterialStyledDialog dialog = new MaterialStyledDialog(this)
+                .setStyle(Style.HEADER_WITH_TITLE)
+                .setTitle(R.string.app_name)
+                .setDescription(R.string.app_info)
+                .setHeaderColor(R.color.primary)
+                .setPositive("OK", new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
+                .build();
+
+        dialog.show();
+    }
 
     @BindView(R.id.searchView)
     FloatingSearchView searchView;

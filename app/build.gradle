@@ -20,6 +20,12 @@ android {
     }
 }
 
+repositories {
+    maven {
+        url "https://jitpack.io"
+    }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
@@ -31,4 +37,5 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.github.medyo:fancybuttons:1.8.1'
     compile 'com.github.arimorty:floatingsearchview:2.0.2'
+    compile 'com.github.javiersantos:MaterialStyledDialogs:1.5.5'
 }
