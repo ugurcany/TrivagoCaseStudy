@@ -10,6 +10,10 @@
         -Floating Search View (arimorty)\n
         -MaterialStyledDialogs (javiersantos)</string>
 
+    <string name="searchview_hinttext">Search for a movie</string>
+
+    <string name="item_movie_nooverview">No overview found</string>
+
     <string name="results_popularmovies">Popular Movies</string>
     <string name="results_searchmovies">Search Results</string>
     <string name="results_nomovie">No Movie Found</string>

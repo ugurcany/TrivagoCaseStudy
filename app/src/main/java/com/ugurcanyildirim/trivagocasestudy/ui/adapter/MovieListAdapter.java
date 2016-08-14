@@ -1,13 +1,11 @@
 package com.ugurcanyildirim.trivagocasestudy.ui.adapter;
 
-import android.app.Activity;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.ugurcanyildirim.trivagocasestudy.R;
 import com.ugurcanyildirim.trivagocasestudy.model.Movie;
@@ -68,7 +66,7 @@ public class MovieListAdapter<T> extends InfiniteListAdapter<T> {
             holder.movieTitle.setText(title);
 
             //OVERVIEW
-            String overview = !TextUtils.isEmpty(movie.overview) ? movie.overview.trim() : "No overview found";
+            String overview = !TextUtils.isEmpty(movie.overview) ? movie.overview.trim() : activity.getResources().getString(R.string.item_movie_nooverview);
             holder.movieOverview.setText(overview);
         }
 

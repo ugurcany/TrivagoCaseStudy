@@ -1,9 +1,5 @@
 package com.ugurcanyildirim.trivagocasestudy.ui.custom;
 
-/**
- * Created by ugurc on 11.08.2016.
- */
-
 import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.AttributeSet;
@@ -19,7 +15,7 @@ import com.ugurcanyildirim.trivagocasestudy.R;
 import java.util.List;
 
 /**
- * Created by ugurcan.yildirim on 11.03.2016.
+ * Created by ugurc on 11.08.2016.
  */
 public class InfiniteListView<T> extends FrameLayout {
 
@@ -69,27 +65,6 @@ public class InfiniteListView<T> extends FrameLayout {
 
         listView = (ListView) view.findViewById(R.id.listView);
         listView.setFooterDividersEnabled(false);
-
-        //XML CONFIG
-        /*if(attrs != null) {
-            TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.InfiniteListView, 0, 0);
-            try {
-                //SWIPE-REFRESH INDICATOR COLOR
-                int swipeRefreshIndicatorColor = typedArray.getColor(R.styleable.InfiniteListView_swipeRefreshIndicatorColor, context.getResources().getColor(android.R.color.black));
-                swipeRefreshLayout.setColorSchemeColors(swipeRefreshIndicatorColor);
-                //SCROLLBAR VISIBILITY
-                boolean scrollbarVisible = typedArray.getBoolean(R.styleable.InfiniteListView_scrollbarVisible, true);
-                listView.setVerticalScrollBarEnabled(scrollbarVisible);
-                //DIVIDER VISIBILITY
-                boolean dividerVisible = typedArray.getBoolean(R.styleable.InfiniteListView_dividerVisible, true);
-                if(!dividerVisible) {
-                    listView.setDividerHeight(0);
-                }
-            } finally {
-                typedArray.recycle();
-            }
-        }*/
-
     }
 
     public void init(InfiniteListAdapter<T> infiniteListAdapter, int loadingViewLayout){
@@ -153,6 +128,7 @@ public class InfiniteListView<T> extends FrameLayout {
     }
 
     public void startLoading(){
+        //IF FOOTER ALREADY EXISTS, REMOVE IT
         if(listView.getFooterViewsCount() > 0) {
             listView.removeFooterView(loadingView);
         }

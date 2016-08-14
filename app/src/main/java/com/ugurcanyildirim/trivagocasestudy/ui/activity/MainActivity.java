@@ -1,12 +1,9 @@
 package com.ugurcanyildirim.trivagocasestudy.ui.activity;
 
-import android.app.Application;
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -20,8 +17,6 @@ import com.ugurcanyildirim.trivagocasestudy.R;
 import com.ugurcanyildirim.trivagocasestudy.model.Movie;
 import com.ugurcanyildirim.trivagocasestudy.ui.adapter.MovieListAdapter;
 import com.ugurcanyildirim.trivagocasestudy.ui.custom.InfiniteListView;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,13 +49,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSearchTextChanged(String oldQuery, final String newQuery) {
 
+                //IF EMPTY, GET POPULAR MOVIES
                 if(newQuery.isEmpty()){
                     isSearchActive = false;
                     keyword = "";
 
                     resultsTitle.setText(getResources().getString(R.string.results_popularmovies));
                 }
-                else{
+                else{ //SEARCH
                     isSearchActive = true;
                     keyword = newQuery;
 
@@ -96,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
         movieListView.init(adapter, R.layout.item_loading);
 
+        //FIRST-TIME LOAD
         refreshList();
 
     }
@@ -111,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //DO THIS ON SWIPE-REFRESH
+    //DO THIS ON SWIPE-REFRESH & FIRST-TIME SEARCH
     public void refreshList() {
         page = 1;
         movieListView.clearList();
@@ -120,15 +117,13 @@ public class MainActivity extends AppCompatActivity {
 
     //DO THIS ON ITEM CLICK
     public void clickItem(int position) {
-        //LogUtil.d("item clicked: " + position);
     }
 
     //DO THIS ON ITEM LONG-CLICK
     public void longClickItem(int position) {
-        //LogUtil.d("item long clicked: " + position);
     }
 
-    //CALLED FROM SERVICE
+    //TO BE CALLED FROM SERVICE MANAGER
     public void loadMovies(List<Movie> movies, String keyword){
         if(this.keyword.equals(keyword)) { //IF NOT OLD RESULTS
             if (movies != null) {

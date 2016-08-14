@@ -1,14 +1,14 @@
 package com.ugurcanyildirim.trivagocasestudy.ui.custom;
 
-/**
- * Created by ugurc on 11.08.2016.
- */
 import android.app.Activity;
 import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Created by ugurc on 11.08.2016.
+ */
 public abstract class InfiniteListAdapter<T> extends ArrayAdapter<T> {
 
     private ArrayList<T> itemList;
